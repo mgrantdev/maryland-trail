@@ -24,6 +24,9 @@
     <Compile Include="classes\game.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="classes\interface.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="classes\loader.py">
       <SubType>Code</SubType>
     </Compile>
