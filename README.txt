@@ -15,5 +15,5 @@ Scene4: Select Vehicle
 PT4-----------------------------
 Scene5: Shop For Items
 PT5-----------------------------
-Scene6: Choose Starting Points
+Scene6: Choose Starting Location
 PT6-----------------------------
