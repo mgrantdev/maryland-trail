@@ -364,7 +364,7 @@ class Interface(object):
         self.scenes['travel0']['image_label'].image = self.scenes['travel0']["image_widget"]
         self.scenes['travel0']['image_label'].place(relx=0.02, rely=0.02)
         self.scenes['travel0']['continue_label'] = tkinter.Label(self.scenes['travel0']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        self.scenes['travel0']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
+        self.scenes['travel0']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene7'))
         self.scenes['travel0']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
         self.scenes['travel0']['frame'].place_forget()
         # scene travel1: frederick travel scene
@@ -727,7 +727,6 @@ class Interface(object):
                     self.stats["rest"] += 3
                     self.stats["time"] -= 10
                     messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 3 rest, -10 time)")
-
         elif(num == '5'):
             # travel to new location
             self.travel_menu("0")    
@@ -745,7 +744,7 @@ class Interface(object):
         self.scenes['scene8']['text1'] = "Welcome to the City of Clustered Spires!\n\n"
         self.scenes['scene8']['text_label1'] = tkinter.Label(self.scenes['scene8']['frame'], bg="#1a1a1a", text=self.scenes['scene8']['text1'], fg="#fff", font=("Arial", 24), justify="center")
         self.scenes['scene8']['text_label1'].pack()
-        self.scenes['scene8']['text2'] = "[0]--> Explore Downtown Frederick\n\n [1]--> Visit Sugarloaf Mountain\n\n [2]--> Visit Catoctin Mountain Park\n\n [3]-->Visit Farmer's Market\n\n [4]--> Travel to new location"
+        self.scenes['scene8']['text2'] = "[0]--> Explore Downtown Frederick\n\n [1]--> Visit Sugarloaf Mountain\n\n [2]--> Visit Catoctin Mountain Park\n\n [3]--> Visit Farmer's Market\n\n [4]--> Stay at a Hotel (${})\n\n [5]--> Travel to new location".format((len(self.players) + 1) * 75)
         self.scenes['scene8']['text_label2'] = tkinter.Label(self.scenes['scene8']['frame'], bg="#1a1a1a", text=self.scenes['scene8']['text2'], fg="#fff", font=("Arial", 14), justify="left")
         self.scenes['scene8']['text_label2'].pack()
         self.scenes['scene8']['input'] = tkinter.Entry(self.scenes['scene8']['frame'], fg="#fff", bg="#1a1a1a", borderwidth=1, relief="sunken", font=("Arial", 16), justify="center")
@@ -825,199 +824,215 @@ class Interface(object):
             self.scenes['scene8a4']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
         self.scenes['scene8a4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
         self.scenes['scene8a4']['frame'].place_forget() 
-        ## scene 8b1: sugarloaf mountain pic 1
-        #random_event_chance = random.randint(1, 10)
-        #self.scenes['scene8b1'] = {}
-        #self.scenes['scene8b1']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        #self.scenes['scene8b1']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        #current_dir = os.path.abspath(os.path.dirname(__file__))
-        #filepath = os.path.join(current_dir, "../bin/images/scene8b/1.jpg")
-        #self.scenes['scene8b1']["image"] = Image.open(filepath)
-        #self.scenes['scene8b1']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8b1']["image"])
-        #self.scenes['scene8b1']["image_label"] = tkinter.Label(self.scenes['scene8b1']['frame'], image=self.scenes['scene8b1']["image_widget"], borderwidth=0)
-        #self.scenes['scene8b1']['image_label'].image = self.scenes['scene8b1']["image_widget"]
-        #self.scenes['scene8b1']['image_label'].place(relx=0.02, rely=0.02)
-        #self.scenes['scene8b1']['continue_label'] = tkinter.Label(self.scenes['scene8b1']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        #self.scenes['scene8b1']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8b2'))
-        #self.scenes['scene8b1']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        #self.scenes['scene8b1']['frame'].place_forget()
-        ## scene 8b2: sugarloaf mountain pic 2
-        #self.scenes['scene8b2'] = {}
-        #self.scenes['scene8b2']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        #self.scenes['scene8b2']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        #current_dir = os.path.abspath(os.path.dirname(__file__))
-        #filepath = os.path.join(current_dir, "../bin/images/scene8b/2.jpg")
-        #self.scenes['scene8b2']["image"] = Image.open(filepath)
-        #self.scenes['scene8b2']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8b2']["image"])
-        #self.scenes['scene8b2']["image_label"] = tkinter.Label(self.scenes['scene8b2']['frame'], image=self.scenes['scene8b2']["image_widget"], borderwidth=0)
-        #self.scenes['scene8b2']['image_label'].image = self.scenes['scene8b2']["image_widget"]
-        #self.scenes['scene8b2']['image_label'].place(relx=0.02, rely=0.02)
-        #self.scenes['scene8b2']['continue_label'] = tkinter.Label(self.scenes['scene8b2']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        #self.scenes['scene8b2']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8b3'))
-        #self.scenes['scene8b2']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        #self.scenes['scene8b2']['frame'].place_forget() 
-        ## scene 8b3: sugarloaf mountain pic 3
-        #self.scenes['scene8b3'] = {}
-        #self.scenes['scene8b3']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        #self.scenes['scene8b3']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        #current_dir = os.path.abspath(os.path.dirname(__file__))
-        #filepath = os.path.join(current_dir, "../bin/images/scene8b/3.jpg")
-        #self.scenes['scene8b3']["image"] = Image.open(filepath)
-        #self.scenes['scene8b3']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8b3']["image"])
-        #self.scenes['scene8b3']["image_label"] = tkinter.Label(self.scenes['scene8b3']['frame'], image=self.scenes['scene8b3']["image_widget"], borderwidth=0)
-        #self.scenes['scene8b3']['image_label'].image = self.scenes['scene8b3']["image_widget"]
-        #self.scenes['scene8b3']['image_label'].place(relx=0.02, rely=0.02)
-        #self.scenes['scene8b3']['continue_label'] = tkinter.Label(self.scenes['scene8b3']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        #self.scenes['scene8b3']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8b4'))
-        #self.scenes['scene8b3']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        #self.scenes['scene8b3']['frame'].place_forget() 
-        ## scene 7b4: sugarloaf mountain pic 4
-        #self.scenes['scene8b4'] = {}
-        #self.scenes['scene8b4']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        #self.scenes['scene8b4']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        #current_dir = os.path.abspath(os.path.dirname(__file__))
-        #filepath = os.path.join(current_dir, "../bin/images/scene8b/4.jpg")
-        #self.scenes['scene8b4']["image"] = Image.open(filepath)
-        #self.scenes['scene8b4']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8b4']["image"])
-        #self.scenes['scene8b4']["image_label"] = tkinter.Label(self.scenes['scene8b4']['frame'], image=self.scenes['scene8b4']["image_widget"], borderwidth=0)
-        #self.scenes['scene8b4']['image_label'].image = self.scenes['scene8b4']["image_widget"]
-        #self.scenes['scene8b4']['image_label'].place(relx=0.02, rely=0.02)
-        #self.scenes['scene8b4']['continue_label'] = tkinter.Label(self.scenes['scene8b4']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        #if(random_event_chance == 1):
-        #    # if random event chance occurs (only if equal to 1), show "slip and fall" message (-2 fun, -2 rest)
-        #    self.scenes['scene8b4']['continue_label'].bind( "<Button>", lambda e:self.frederick_handler("e1"))
-        #else:
-        #    # otherwise, return to frederick menu
-        #    self.scenes['scene8b4']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
-        #self.scenes['scene8b4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        #self.scenes['scene8b4']['frame'].place_forget() 
-        ## scene 8c1: explore downtown pic 1
-        #random_event_chance = random.randint(1, 10)
-        #self.scenes['scene8c1'] = {}
-        #self.scenes['scene8c1']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        #self.scenes['scene8c1']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        #current_dir = os.path.abspath(os.path.dirname(__file__))
-        #filepath = os.path.join(current_dir, "../bin/images/scene8c/1.jpg")
-        #self.scenes['scene8c1']["image"] = Image.open(filepath)
-        #self.scenes['scene8c1']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8c1']["image"])
-        #self.scenes['scene8c1']["image_label"] = tkinter.Label(self.scenes['scene8c1']['frame'], image=self.scenes['scene8c1']["image_widget"], borderwidth=0)
-        #self.scenes['scene8c1']['image_label'].image = self.scenes['scene8c1']["image_widget"]
-        #self.scenes['scene8c1']['image_label'].place(relx=0.02, rely=0.02)
-        #self.scenes['scene8c1']['continue_label'] = tkinter.Label(self.scenes['scene8c1']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        #self.scenes['scene8c1']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8c2'))
-        #self.scenes['scene8c1']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        #self.scenes['scene8c1']['frame'].place_forget()
-        ## scene 7c2: explore downtown pic 2
-        #self.scenes['scene8c2'] = {}
-        #self.scenes['scene8c2']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        #self.scenes['scene8c2']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        #current_dir = os.path.abspath(os.path.dirname(__file__))
-        #filepath = os.path.join(current_dir, "../bin/images/scene8c/2.jpg")
-        #self.scenes['scene8c2']["image"] = Image.open(filepath)
-        #self.scenes['scene8c2']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8c2']["image"])
-        #self.scenes['scene8c2']["image_label"] = tkinter.Label(self.scenes['scene8c2']['frame'], image=self.scenes['scene8c2']["image_widget"], borderwidth=0)
-        #self.scenes['scene8c2']['image_label'].image = self.scenes['scene8c2']["image_widget"]
-        #self.scenes['scene8c2']['image_label'].place(relx=0.02, rely=0.02)
-        #self.scenes['scene8c2']['continue_label'] = tkinter.Label(self.scenes['scene8c2']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        #self.scenes['scene8c2']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8c3'))
-        #self.scenes['scene8c2']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        #self.scenes['scene8c2']['frame'].place_forget() 
-        ## scene 7c3: explore downtown pic 3
-        #self.scenes['scene8c3'] = {}
-        #self.scenes['scene8c3']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        #self.scenes['scene8c3']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        #current_dir = os.path.abspath(os.path.dirname(__file__))
-        #filepath = os.path.join(current_dir, "../bin/images/scene8c/3.jpg")
-        #self.scenes['scene8c3']["image"] = Image.open(filepath)
-        #self.scenes['scene8c3']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8c3']["image"])
-        #self.scenes['scene8c3']["image_label"] = tkinter.Label(self.scenes['scene8c3']['frame'], image=self.scenes['scene8c3']["image_widget"], borderwidth=0)
-        #self.scenes['scene8c3']['image_label'].image = self.scenes['scene8c3']["image_widget"]
-        #self.scenes['scene8c3']['image_label'].place(relx=0.02, rely=0.02)
-        #self.scenes['scene8c3']['continue_label'] = tkinter.Label(self.scenes['scene8c3']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        #self.scenes['scene8c3']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8c4'))
-        #self.scenes['scene8c3']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        #self.scenes['scene8c3']['frame'].place_forget() 
-        ## scene 7c4: downtown pic 4
-        #self.scenes['scene8c4'] = {}
-        #self.scenes['scene8c4']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        #self.scenes['scene8c4']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        #current_dir = os.path.abspath(os.path.dirname(__file__))
-        #filepath = os.path.join(current_dir, "../bin/images/scene8c/4.jpg")
-        #self.scenes['scene8c4']["image"] = Image.open(filepath)
-        #self.scenes['scene8c4']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8c4']["image"])
-        #self.scenes['scene8c4']["image_label"] = tkinter.Label(self.scenes['scene8c4']['frame'], image=self.scenes['scene8c4']["image_widget"], borderwidth=0)
-        #self.scenes['scene8c4']['image_label'].image = self.scenes['scene8c4']["image_widget"]
-        #self.scenes['scene8c4']['image_label'].place(relx=0.02, rely=0.02)
-        #self.scenes['scene8c4']['continue_label'] = tkinter.Label(self.scenes['scene8c4']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        #if(random_event_chance == 1):
-        #    # if random event chance occurs (only if equal to 1), show "slip and fall" message (-2 fun, -2 rest)
-        #    self.scenes['scene8c4']['continue_label'].bind( "<Button>", lambda e:self.frederick_handler("e1"))
-        #else:
-        #    # otherwise, return to frederick menu
-        #    self.scenes['scene8c4']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
-        #self.scenes['scene8c4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        #self.scenes['scene8c4']['frame'].place_forget() 
+        # scene 8b1: sugarloaf mountain pic 1
+        random_event_chance = random.randint(1, 100)
+        self.scenes['scene8b1'] = {}
+        self.scenes['scene8b1']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8b1']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8b/1.jpg")
+        self.scenes['scene8b1']["image"] = Image.open(filepath)
+        self.scenes['scene8b1']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8b1']["image"])
+        self.scenes['scene8b1']["image_label"] = tkinter.Label(self.scenes['scene8b1']['frame'], image=self.scenes['scene8b1']["image_widget"], borderwidth=0)
+        self.scenes['scene8b1']['image_label'].image = self.scenes['scene8b1']["image_widget"]
+        self.scenes['scene8b1']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8b1']['continue_label'] = tkinter.Label(self.scenes['scene8b1']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        self.scenes['scene8b1']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8b2'))
+        self.scenes['scene8b1']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8b1']['frame'].place_forget()
+        # scene 8b2: sugarloaf mountain pic 2
+        self.scenes['scene8b2'] = {}
+        self.scenes['scene8b2']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8b2']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8b/2.jpg")
+        self.scenes['scene8b2']["image"] = Image.open(filepath)
+        self.scenes['scene8b2']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8b2']["image"])
+        self.scenes['scene8b2']["image_label"] = tkinter.Label(self.scenes['scene8b2']['frame'], image=self.scenes['scene8b2']["image_widget"], borderwidth=0)
+        self.scenes['scene8b2']['image_label'].image = self.scenes['scene8b2']["image_widget"]
+        self.scenes['scene8b2']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8b2']['continue_label'] = tkinter.Label(self.scenes['scene8b2']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        self.scenes['scene8b2']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8b3'))
+        self.scenes['scene8b2']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8b2']['frame'].place_forget() 
+        # scene 8b3: sugarloaf mountain pic 3
+        self.scenes['scene8b3'] = {}
+        self.scenes['scene8b3']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8b3']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8b/3.jpg")
+        self.scenes['scene8b3']["image"] = Image.open(filepath)
+        self.scenes['scene8b3']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8b3']["image"])
+        self.scenes['scene8b3']["image_label"] = tkinter.Label(self.scenes['scene8b3']['frame'], image=self.scenes['scene8b3']["image_widget"], borderwidth=0)
+        self.scenes['scene8b3']['image_label'].image = self.scenes['scene8b3']["image_widget"]
+        self.scenes['scene8b3']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8b3']['continue_label'] = tkinter.Label(self.scenes['scene8b3']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        self.scenes['scene8b3']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8b4'))
+        self.scenes['scene8b3']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8b3']['frame'].place_forget() 
+        # scene 7b4: sugarloaf mountain pic 4
+        self.scenes['scene8b4'] = {}
+        self.scenes['scene8b4']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8b4']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8b/4.jpg")
+        self.scenes['scene8b4']["image"] = Image.open(filepath)
+        self.scenes['scene8b4']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8b4']["image"])
+        self.scenes['scene8b4']["image_label"] = tkinter.Label(self.scenes['scene8b4']['frame'], image=self.scenes['scene8b4']["image_widget"], borderwidth=0)
+        self.scenes['scene8b4']['image_label'].image = self.scenes['scene8b4']["image_widget"]
+        self.scenes['scene8b4']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8b4']['continue_label'] = tkinter.Label(self.scenes['scene8b4']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        if(random_event_chance <= 5):
+            # (5% chance) bitten by snake random event
+            self.scenes['scene8b4']['continue_label'].bind( "<Button>", lambda e:self.random_event_handler("e5", "scene8"))
+        else:
+            # otherwise, return to frederick menu
+            self.scenes['scene8b4']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
+        self.scenes['scene8b4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8b4']['frame'].place_forget() 
+        # scene 8c1: catoctin mountain pic 1
+        random_event_chance = random.randint(1, 10)
+        self.scenes['scene8c1'] = {}
+        self.scenes['scene8c1']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8c1']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8c/1.jpg")
+        self.scenes['scene8c1']["image"] = Image.open(filepath)
+        self.scenes['scene8c1']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8c1']["image"])
+        self.scenes['scene8c1']["image_label"] = tkinter.Label(self.scenes['scene8c1']['frame'], image=self.scenes['scene8c1']["image_widget"], borderwidth=0)
+        self.scenes['scene8c1']['image_label'].image = self.scenes['scene8c1']["image_widget"]
+        self.scenes['scene8c1']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8c1']['continue_label'] = tkinter.Label(self.scenes['scene8c1']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        self.scenes['scene8c1']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8c2'))
+        self.scenes['scene8c1']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8c1']['frame'].place_forget()
+        # scene 7c2: catoctin mountain pic 2
+        self.scenes['scene8c2'] = {}
+        self.scenes['scene8c2']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8c2']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8c/2.jpg")
+        self.scenes['scene8c2']["image"] = Image.open(filepath)
+        self.scenes['scene8c2']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8c2']["image"])
+        self.scenes['scene8c2']["image_label"] = tkinter.Label(self.scenes['scene8c2']['frame'], image=self.scenes['scene8c2']["image_widget"], borderwidth=0)
+        self.scenes['scene8c2']['image_label'].image = self.scenes['scene8c2']["image_widget"]
+        self.scenes['scene8c2']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8c2']['continue_label'] = tkinter.Label(self.scenes['scene8c2']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        self.scenes['scene8c2']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8c3'))
+        self.scenes['scene8c2']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8c2']['frame'].place_forget() 
+        # scene 7c3: catoctin mountain pic 3
+        self.scenes['scene8c3'] = {}
+        self.scenes['scene8c3']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8c3']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8c/3.jpg")
+        self.scenes['scene8c3']["image"] = Image.open(filepath)
+        self.scenes['scene8c3']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8c3']["image"])
+        self.scenes['scene8c3']["image_label"] = tkinter.Label(self.scenes['scene8c3']['frame'], image=self.scenes['scene8c3']["image_widget"], borderwidth=0)
+        self.scenes['scene8c3']['image_label'].image = self.scenes['scene8c3']["image_widget"]
+        self.scenes['scene8c3']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8c3']['continue_label'] = tkinter.Label(self.scenes['scene8c3']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        self.scenes['scene8c3']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8c4'))
+        self.scenes['scene8c3']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8c3']['frame'].place_forget() 
+        # scene 7c4: catoctin mountain pic 4
+        self.scenes['scene8c4'] = {}
+        self.scenes['scene8c4']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8c4']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8c/4.jpg")
+        self.scenes['scene8c4']["image"] = Image.open(filepath)
+        self.scenes['scene8c4']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8c4']["image"])
+        self.scenes['scene8c4']["image_label"] = tkinter.Label(self.scenes['scene8c4']['frame'], image=self.scenes['scene8c4']["image_widget"], borderwidth=0)
+        self.scenes['scene8c4']['image_label'].image = self.scenes['scene8c4']["image_widget"]
+        self.scenes['scene8c4']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8c4']['continue_label'] = tkinter.Label(self.scenes['scene8c4']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        if(random_event_chance <= 5):
+            # (5% chance) bitten by snake random event
+            self.scenes['scene8b4']['continue_label'].bind( "<Button>", lambda e:self.random_event_handler("e5", "scene8"))
+        else:
+            # otherwise, return to frederick menu
+            self.scenes['scene8c4']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
+        self.scenes['scene8c4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8c4']['frame'].place_forget() 
+        # scene 8d1: farmer's market
+        random_event_chance = random.randint(1, 10)
+        self.scenes['scene8d1'] = {}
+        self.scenes['scene8d1']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene8d1']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../bin/images/scene8d/1.jpg")
+        self.scenes['scene8d1']["image"] = Image.open(filepath)
+        self.scenes['scene8d1']["image_widget"] = ImageTk.PhotoImage(self.scenes['scene8d1']["image"])
+        self.scenes['scene8d1']["image_label"] = tkinter.Label(self.scenes['scene8d1']['frame'], image=self.scenes['scene8d1']["image_widget"], borderwidth=0)
+        self.scenes['scene8d1']['image_label'].image = self.scenes['scene8d1']["image_widget"]
+        self.scenes['scene8d1']['image_label'].place(relx=0.02, rely=0.02)
+        self.scenes['scene8d1']['continue_label'] = tkinter.Label(self.scenes['scene8d1']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        if(random_event_chance >= 2):
+            # (90% chance) finding food at farmer's market
+            self.scenes['scene8d1']['continue_label'].bind( "<Button>", lambda e:self.random_event_handler("e6", "scene8"))
+        else:
+            # otherwise, return straight to frederick menu
+            self.scenes['scene8d1']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
+        self.scenes['scene8d1']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+        self.scenes['scene8d1']['frame'].place_forget()
 
     def frederick_handler(self, num):
         if(num == '0'):
-            # explore downtown frederick (+5 fun, -2 rest, -3 time, -4 hunger) ; show slideshow (scenes 7a(1-4))
+            # explore downtown frederick (+10 fun, -5 rest, -2 time, -2 hunger) ; show slideshow (scenes 8a(1-4))
             if("scene8a1" not in self.visited_scenes):
-                self.stats["fun"] += 5
-                self.stats["rest"] -= 2
-                self.stats["time"] -= 3
-                self.stats["hunger"] -= 4
+                self.stats["fun"] += 10
+                self.stats["rest"] -= 5
+                self.stats["time"] -= 2
+                self.stats["hunger"] -= 2
                 self.visited_scenes.append("scene8a1")
                 self.open_scene("scene8a1")
             else:
                 messagebox.showinfo("Oops!", "You've already visited this location!\n\nPlease select a different option.")
         elif(num == '1'):
-            # visit ripley's museum (+5 fun, -2 rest, -3 time, -4 hunger) ; show slideshow (scenes 7b(1-4))
-            if("scene7b1" not in self.visited_scenes):
-                self.stats["fun"] += 5
-                self.stats["rest"] -= 2
+            # visit sugarloaf (+7 fun, -7 rest, -3 time, -5 hunger) ; show slideshow (scenes 8b(1-4))
+            if("scene8b1" not in self.visited_scenes):
+                self.stats["fun"] += 7
+                self.stats["rest"] -= 7
                 self.stats["time"] -= 3
-                self.stats["hunger"] -= 4
-                self.visited_scenes.append("scene7b1")
-                self.open_scene("scene7b1")
+                self.stats["hunger"] -= 5
+                self.visited_scenes.append("scene8b1")
+                self.open_scene("scene8b1")
             else:
                 messagebox.showinfo("Oops!", "You've already visited this location!\n\nPlease select a different option.")
         elif(num == '2'):
-            # explore downtown (+10 fun, -5 rest, -3 time, -6 hunger) ; show slideshow (scenes 7c(1-4))
-            if("scene7c1" not in self.visited_scenes):
-                self.stats["fun"] += 10
-                self.stats["rest"] -= 5
+            # visit catoctin (+7 fun, -7 rest, -3 time, -5 hunger) ; show slideshow (scenes 8c(1-4))
+            if("scene8c1" not in self.visited_scenes):
+                self.stats["fun"] += 7
+                self.stats["rest"] -= 7
                 self.stats["time"] -= 3
-                self.stats["hunger"] -= 6
-                self.visited_scenes.append("scene7c1")
-                self.open_scene("scene7c1")
+                self.stats["hunger"] -= 5
+                self.visited_scenes.append("scene8c1")
+                self.open_scene("scene8c1")
             else:
                 messagebox.showinfo("Oops!", "You've already visited this location!\n\nPlease select a different option.")
         elif(num == '3'):
-            # eat at restaurant in baltimore
-            if(self.stats["money"] - (len(self.players) + 1) * 17 > 0):
-                self.stats["hunger"] += 10
-                self.stats["money"] -= (len(self.players) + 1) * 17
-                messagebox.showinfo("Bon appetit!", "Enjoy your meal.\n\n(+ 10 hunger)")
-            else:
-                msgbox = messagebox.showinfo("Oh no!", "You don't have enough money for this!")
+            # go to farmer's market (shop screen)
+            self.visited_scenes.append("scene8d1")
+            self.open_scene("scene8d1")
         elif(num == '4'):
-            # sleep at hotel in baltimore
-            if(self.stats["money"] - (len(self.players) + 1) * 80 > 0):
+             # sleep at hotel in frederick
+            if(self.stats["money"] - (len(self.players) + 1) * 75 > 0):
                 self.stats["hunger"] += 10
                 self.stats["rest"] += 10
                 self.stats["time"] -= 10
-                self.stats["money"] -= (len(self.players) + 1) * 80
-                messagebox.showinfo("Lord Hotel", "Enjoy your stay at the Lord Hotel.\n\n(+ 10 rest, +10 hunger, -10 time)")
+                self.stats["money"] -= (len(self.players) + 1) * 75
+                messagebox.showinfo("Country Inn Frederick", "Enjoy your stay at Country Inn Frederick!.\n\n(+ 10 rest, +10 hunger, -10 time)")
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
                     self.stats["rest"] += 3
                     self.stats["time"] -= 10
                     messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 3 rest, -10 time)")
-
         elif(num == '5'):
             # travel to new location
-            self.travel_menu("0")     
+            self.travel_menu("1")     
         self.update_stats()
 
     # random event handler
@@ -1086,6 +1101,16 @@ class Interface(object):
                 messagebox.showinfo("Oh no!", "A sudden rainstorm appeared out of nowhere!\n\n(-5 fun, -2 rest)")
                 self.stats["fun"] -= 5
                 self.stats["rest"] -= 2
+        elif(code == "e5"):
+            # random event scene: rattlesnake bite
+                messagebox.showinfo("Oh no!", "You were bitten by a snake! Better hope it's not venemous!\n\n(-5 fun, -2 rest)")
+                self.stats["fun"] -= 5
+                self.stats["rest"] -= 2
+        elif(code == "e6"):
+            # random event scene: finding food at market
+            food_items = ["grapes","oranges juice","lemonade","apples", "apple cider","apple pie","grape jam"]
+            messagebox.showinfo("Yay!", "You found some great {} at the market!\n\n(+2 hunger)".format(food_items[random.randint(0, len(food_items)-1)]))
+            self.stats["hunger"] += 2
         self.open_scene(redirect_scene)
         self.random_events_experienced.append(code)     
         self.update_stats()
