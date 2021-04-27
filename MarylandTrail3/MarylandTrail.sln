@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MarylandTrail", "MarylandTrail.pyproj", "{BAEC4003-1C5F-49EB-ADBE-A0920BC7114D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAEC4003-1C5F-49EB-ADBE-A0920BC7114D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAEC4003-1C5F-49EB-ADBE-A0920BC7114D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63E43024-C58B-45A5-8C37-30DBF3049D8D}
+	EndGlobalSection
+EndGlobal
