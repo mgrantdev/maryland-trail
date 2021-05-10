@@ -36,6 +36,7 @@
     <Folder Include="classes\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="leaderboard.txt" />
     <Content Include="README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

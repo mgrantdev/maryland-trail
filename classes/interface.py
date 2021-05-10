@@ -19,9 +19,9 @@ class Interface(object):
     players = {}
     stats = {}
     inventory = []
+    leaderboard = []
     visited_scenes = []
     random_events_experienced = []
-    scene_cursor = 'scene1'
     location = None
 
     def __init__(self, loader):
@@ -58,7 +58,7 @@ class Interface(object):
         self.toolbar_buttons['image']['heading'].place(x=(self.toolbar_frame.winfo_width() - self.toolbar_buttons['image']['label'].winfo_width())/4, y=round(self.window_height * 0.2) + round(self.window_height * 0.05) + 5)
         # self.toolbar stats
         self.toolbar_buttons['stats'] = {}
-        self.toolbar_buttons['stats']['fun'] = tkinter.Label(self.toolbar_frame, bg="#000", text="Fun: 5/100", fg="#e35454", font=("Arial", 16), justify="center")
+        self.toolbar_buttons['stats']['fun'] = tkinter.Label(self.toolbar_frame, bg="#000", text="Fun: 5", fg="#e35454", font=("Arial", 16), justify="center")
         self.toolbar_buttons['stats']['fun'].place(rely=0.4, relx=0.1, relwidth=0.8)
         self.toolbar_buttons['stats']['hunger'] = tkinter.Label(self.toolbar_frame, bg="#000", text="Hunger: 20/20", fg="#94f086", font=("Arial", 15), justify="center")
         self.toolbar_buttons['stats']['hunger'].place(rely=0.45, relx=0.1, relwidth=0.8)
@@ -70,6 +70,7 @@ class Interface(object):
         self.toolbar_buttons['stats']['time'].place(rely=0.6, relx=0.1, relwidth=0.8)
         # create scene 1 (game intro)
         self.window.update() # updates window dimensions
+        self.visited_scenes.append('scene1')
         self.scenes['scene1'] = {}
         self.scenes['scene1']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
         self.scenes['scene1']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
@@ -81,6 +82,7 @@ class Interface(object):
         self.scenes['scene1']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
         # create scene 2 (player count)
         self.window.update() # updates window dimensions
+        self.visited_scenes.append('scene2')
         self.scenes['scene2'] = {}
         self.scenes['scene2']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
         self.scenes['scene2']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
@@ -101,7 +103,7 @@ class Interface(object):
         self.scenes['game_over']['text_label'] = tkinter.Label(self.scenes['game_over']['frame'], bg="#1a1a1a", text=self.scenes['game_over']['text'], fg="#fff", font=("Arial", 20))
         self.scenes['game_over']['text_label'].pack()
         self.scenes['game_over']['continue_label'] = tkinter.Label(self.scenes['game_over']['frame'], bg="#1a1a1a", text="CLICK HERE TO RESTART", fg="#fff", font=("Arial", 20))
-        self.scenes['game_over']['continue_label'].bind("<Button>", lambda e:self.end_game())  
+        self.scenes['game_over']['continue_label'].bind("<Button>", lambda e:self.reset_game())  
         self.scenes['game_over']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
         self.scenes['game_over']['frame'].place_forget()
         # finish window creation
@@ -132,43 +134,52 @@ class Interface(object):
         self.stats["money"] = 1000 + (500 * len(self.players))
         self.stats["time"] = 120
         self.update_stats()
+        self.visited_scenes.append('scene3')
+        self.scenes['scene3'] = {}
+        self.scenes['scene3']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['scene3']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        self.scenes['scene3']['text'] = "What are the names of you and your passengers?\n"
+        self.scenes['scene3']['text_label'] = tkinter.Label(self.scenes['scene3']['frame'], bg="#1a1a1a", text=self.scenes['scene3']['text'], fg="#fff", font=("Arial", 20))
+        self.scenes['scene3']['text_label'].pack()
+        self.scenes['scene3']['continue_label'] = tkinter.Label(self.scenes['scene3']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+        self.scenes['scene3']['player_name_label'] = tkinter.Label(self.scenes['scene3']['frame'], bg="#1a1a1a", text="Your Name (Leaderboard Name):", fg="#fff", font=("Arial", 16))
+        self.scenes['scene3']['player_name_label'].pack()
+        self.scenes['scene3']['player_name'] = tkinter.Entry(self.scenes['scene3']['frame'], fg="#fff", bg="#1a1a1a", borderwidth=1, relief="sunken", font=("Arial", 16), justify="center")
+        self.scenes['scene3']['player_name'].pack()
         if(len(self.players) > 0):
-            self.scene_cursor = 'scene3'
-            self.scenes['scene3'] = {}
-            self.scenes['scene3']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-            self.scenes['scene3']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-            self.scenes['scene3']['text'] = "What are the names of your passengers?"
-            self.scenes['scene3']['text_label'] = tkinter.Label(self.scenes['scene3']['frame'], bg="#1a1a1a", text=self.scenes['scene3']['text'], fg="#fff", font=("Arial", 20))
-            self.scenes['scene3']['text_label'].pack()
-            self.scenes['scene3']['continue_label'] = tkinter.Label(self.scenes['scene3']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-            for x in self.players:
-                self.scenes['scene3']['input' + str(x)] = tkinter.Entry(self.scenes['scene3']['frame'], fg="#fff", bg="#1a1a1a", borderwidth=1, relief="sunken", font=("Arial", 16), justify="center")
-                self.scenes['scene3']['input' + str(x)].place(relx=0.3, rely=0.2 + (x * .08), relheight=0.08, relwidth=0.4)
-            self.scenes['scene3']['continue_label'].bind("<Button>", lambda e:self.choose_vehicles())  
-            self.scenes['scene3']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        else:
-            self.choose_vehicles()
+            self.scenes['scene3']['passenger_names_label'] = tkinter.Label(self.scenes['scene3']['frame'], bg="#1a1a1a", text="Passenger Names:", fg="#fff", font=("Arial", 16))
+            self.scenes['scene3']['passenger_names_label'].place(relx=0.3, rely=0.22, relheight=0.08, relwidth=0.4)
+        for x in self.players:
+            self.scenes['scene3']['input' + str(x)] = tkinter.Entry(self.scenes['scene3']['frame'], fg="#fff", bg="#1a1a1a", borderwidth=1, relief="sunken", font=("Arial", 16), justify="center")
+            self.scenes['scene3']['input' + str(x)].place(relx=0.3, rely=0.3 + (x * .08), relheight=0.08, relwidth=0.4)
+        self.scenes['scene3']['continue_label'].bind("<Button>", lambda e:self.choose_vehicles())  
+        self.scenes['scene3']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
 
     # create vehicle selection menu
     def choose_vehicles(self):   
-        self.window.update() # updates window dimensions
-        self.scene_cursor = 'scene4'
-        self.scenes['scene4'] = {}
-        self.scenes['scene4']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
-        self.scenes['scene4']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
-        self.scenes['scene4']['text'] = "Select your vehicle!\n\nRemember, your car must be able to\n accomodate you plus ({}) passengers!".format(len(self.players))
-        self.scenes['scene4']['text2'] = "\n\n [0]--> VW Bus ($1000, seats 8)\n\n [1]--> Mercedes G Wagon ($1500, seats 7)\n\n [2]--> Toyota Corolla ($400, seats 5)\n\n [3]--> Subaru outback ($550, seats 5)\n\n [4]--> Toyota Highlander ($700, seats 7)\n\n [5]--> RV Camper ($1200, seats 8)"
-        self.scenes['scene4']['text_label'] = tkinter.Label(self.scenes['scene4']['frame'], bg="#1a1a1a", text=self.scenes['scene4']['text'], fg="#fff", font=("Arial", 20))
-        self.scenes['scene4']['text_label'].pack()
-        self.scenes['scene4']['text_label2'] = tkinter.Label(self.scenes['scene4']['frame'], bg="#1a1a1a", text=self.scenes['scene4']['text2'], fg="#fff", font=("Arial", 14), justify="left")
-        self.scenes['scene4']['text_label2'].pack()
-        self.scenes['scene4']['continue_label'] = tkinter.Label(self.scenes['scene4']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        self.scenes['scene4']['input1'] = tkinter.Entry(self.scenes['scene4']['frame'], fg="#fff", bg="#1a1a1a", borderwidth=1, relief="sunken", font=("Arial", 16), justify="center")
-        self.scenes['scene4']['input1'].place(relx=0.35, rely=0.7, relheight=0.08, relwidth=0.3)
-        self.scenes['scene4']['continue_label'].bind( "<Button>", lambda e:self.select_vehicle(self.scenes['scene4']['input1'].get()))  
-        self.scenes['scene4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
-        self.scenes['scene4']['frame'].place_forget()
-        self.open_scene('scene4')
+        # make sure names from previous menu are filled in
+        if(len(self.scenes["scene3"]["player_name"].get()) == 0):
+                messagebox.showinfo("Oops!", "Please enter valid name(s)!")
+                self.open_scene("scene3")
+        else:
+            self.window.update() # updates window dimensions
+            self.visited_scenes.append('scene4')
+            self.scenes['scene4'] = {}
+            self.scenes['scene4']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+            self.scenes['scene4']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+            self.scenes['scene4']['text'] = "Select your vehicle!\n\nRemember, your car must be able to\n accomodate you plus ({}) passengers!".format(len(self.players))
+            self.scenes['scene4']['text2'] = "\n\n [0]--> VW Bus ($1000, seats 9)\n\n [1]--> Mercedes G Wagon ($1500, seats 7)\n\n [2]--> Toyota Corolla ($400, seats 5)\n\n [3]--> Subaru outback ($550, seats 5)\n\n [4]--> Toyota Highlander ($700, seats 7)\n\n [5]--> RV Camper ($1200, seats 8)"
+            self.scenes['scene4']['text_label'] = tkinter.Label(self.scenes['scene4']['frame'], bg="#1a1a1a", text=self.scenes['scene4']['text'], fg="#fff", font=("Arial", 20))
+            self.scenes['scene4']['text_label'].pack()
+            self.scenes['scene4']['text_label2'] = tkinter.Label(self.scenes['scene4']['frame'], bg="#1a1a1a", text=self.scenes['scene4']['text2'], fg="#fff", font=("Arial", 14), justify="left")
+            self.scenes['scene4']['text_label2'].pack()
+            self.scenes['scene4']['continue_label'] = tkinter.Label(self.scenes['scene4']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
+            self.scenes['scene4']['input1'] = tkinter.Entry(self.scenes['scene4']['frame'], fg="#fff", bg="#1a1a1a", borderwidth=1, relief="sunken", font=("Arial", 16), justify="center")
+            self.scenes['scene4']['input1'].place(relx=0.35, rely=0.7, relheight=0.08, relwidth=0.3)
+            self.scenes['scene4']['continue_label'].bind( "<Button>", lambda e:self.select_vehicle(self.scenes['scene4']['input1'].get()))  
+            self.scenes['scene4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
+            self.scenes['scene4']['frame'].place_forget()
+            self.open_scene('scene4')
 
     # select vehicle (and validate vehicle choice)
     def select_vehicle(self, num):
@@ -177,48 +188,48 @@ class Interface(object):
         if(num not in accepted_values):
             messagebox.showinfo("Oops!", "Vehicle not found! Please try again.")
         else:
-            if(num == '0' and self.stats["money"] - 1000 >= 0):
+            if(num == '0' and self.stats["money"] - 1000 >= 0 and len(self.players) < 10):
                 # vw bus
                 self.stats["money"] -= 1000
                 self.stats["fun"] += 3
                 self.inventory.append("Volkswagen Bus") 
                 vehicle_purchased = True
-            elif(num == '1' and self.stats["money"] - 1500 >= 0):
+            elif(num == '1' and self.stats["money"] - 1500 >= 0 and len(self.players) < 8):
                 # mercedes g-wagon
                 self.stats["money"] -= 1500
                 self.stats["fun"] += 5
                 self.inventory.append("Mercedes G-Wagon") 
                 vehicle_purchased = True   
-            elif(num == '2' and self.stats["money"] - 400 >= 0):
+            elif(num == '2' and self.stats["money"] - 400 >= 0 and len(self.players) < 6):
                 # toyota corolla
                 self.stats["money"] -= 400
                 self.inventory.append("Toyota Corolla") 
                 vehicle_purchased = True   
-            elif(num == '3' and self.stats["money"] - 550 >= 0):
+            elif(num == '3' and self.stats["money"] - 550 >= 0 and len(self.players) < 6):
                 # subaru outback
                 self.stats["money"] -= 550
                 self.inventory.append("Subaru Outback")
                 vehicle_purchased = True
-            elif(num == '4' and self.stats["money"] - 700 >= 0):
+            elif(num == '4' and self.stats["money"] - 700 >= 0 and len(self.players) < 9):
                 # toyota highlander
                 self.stats["money"] -= 700
                 self.inventory.append("Toyota Highlander") 
                 vehicle_purchased = True  
-            elif(num == '5' and self.stats["money"] - 1200 >= 0):
+            elif(num == '5' and self.stats["money"] - 1200 >= 0 and len(self.players) < 9):
                 # kayak
                 self.stats["money"] -= 1200
                 self.stats["fun"] += 7
                 self.inventory.append("RV Camper") 
                 vehicle_purchased = True 
             else:
-                messagebox.showinfo("Oops!", "You don't have enough money to purchase that item!")
+                messagebox.showinfo("Oops!", "You don't have enough money to purchase that vehicle or it doesn't have enough seats to fit all of your passengers!")
             if(vehicle_purchased):
                 self.choose_items()
             self.update_stats()
 
     # create store menu
     def choose_items(self):
-        self.scene_cursor = 'scene5'
+        self.visited_scenes.append('scene5')
         self.scenes['scene5'] = {}
         self.scenes['scene5']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
         self.scenes['scene5']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
@@ -302,9 +313,13 @@ class Interface(object):
             messagebox.showinfo("Game over!", "You're starved! Remember to eat next time!")
             self.open_scene("game_over")
         if(self.stats["money"] <= 0):
-            # if hunger is <= 0, end the game
+            # if money is <= 0, end the game
             messagebox.showinfo("Game over!", "You're too broke! Remember to save your money next time!")
             self.open_scene("game_over")
+        elif(self.stats["time"] <= 0):
+            # if time is <= 0, end the game
+            messagebox.showinfo("Time's up!", "Time to head home!")
+            self.finish_game()
         # reset stat ui components
         self.toolbar_buttons['stats']['fun'].place_forget()
         self.toolbar_buttons['stats']['hunger'].place_forget()
@@ -318,7 +333,7 @@ class Interface(object):
             color = "#94f086"
         else:
             color = "#e35454"
-        self.toolbar_buttons['stats']['fun'] = tkinter.Label(self.toolbar_frame, bg="#000", text="Fun: {}/100".format(self.stats["fun"]), fg="#e35454", font=("Arial", 16), justify="center")
+        self.toolbar_buttons['stats']['fun'] = tkinter.Label(self.toolbar_frame, bg="#000", text="Fun: {}".format(self.stats["fun"]), fg=color, font=("Arial", 16), justify="center")
         self.toolbar_buttons['stats']['fun'].place(rely=0.4, relx=0.1, relwidth=0.8)
         # get color for hunger stat
         if(self.stats['hunger'] < 15 and self.stats['hunger'] > 7):
@@ -474,6 +489,10 @@ class Interface(object):
         self.scenes['travel5']['frame'].place_forget()
 
     def travel_menu_handler(self, current_location, destination):
+        valid_destinations = ['0','1','2','3','4','5']
+        if(destination not in valid_destinations):
+            messagebox.showinfo("Oops!", "Please choose a valid location!")
+        else:
             if(destination == current_location):
                 # if destination and start point is the same, prompt message box
                 messagebox.showinfo("Oops!", "You're already in this area! Please choose a different location!")
@@ -484,13 +503,23 @@ class Interface(object):
                     # (10% chance) flat tire random event
                     self.random_event_handler("e8", "travel" + str(destination))
                 else:
+                    if(current_location == '5' or current_location == '2' or destination == '5' or destination == '2'):
+                        # if traveling to/from deep creek or eastern shore, increase travel time
+                        self.stats["rest"] -= 6
+                        self.stats["hunger"] -= 6
+                        self.stats["time"] -= 3
+                    else:
+                        self.stats["rest"] -= 2
+                        self.stats["hunger"] -= 2
+                        self.stats["time"] -= 1
                     self.open_scene("travel" + str(destination))
+                    self.update_stats()
 
 
 
     # select starting location
     def select_starting_location(self, num):
-        accepted_values = ['0', '1','2','3','4','5']
+        accepted_values = ['0', '1','2','3','4','5','ENDGAME']
         if(num not in accepted_values):
             messagebox.showinfo("Oops!", "Please enter a valid response to continue!")
         else:
@@ -518,6 +547,13 @@ class Interface(object):
                 # start in western maryland
                 self.location = 5
                 self.open_scene("scene12")  
+            elif(num == "ENDGAME"):
+                # cheat code: skip to end of the game
+                self.stats["time"] = 0
+                self.stats["fun"] = random.randint(70, 150)
+                self.stats["hunger"] = random.randint(1, 20)
+                self.stats["rest"] = random.randint(1, 20)
+                self.stats["money"] = random.randint(1, 200)
             self.update_stats()
 
     # remove item from inventory
@@ -538,7 +574,7 @@ class Interface(object):
         self.scenes['inventory']['text_label1'] = tkinter.Label(self.scenes['inventory']['frame'], bg="#1a1a1a", text=self.scenes['inventory']['text1'], fg="#fff", font=("Arial", 16), justify="center")
         self.scenes['inventory']['text_label1'].place(relwidth=0.8, relx=0.1, rely=0.2)
         self.scenes['inventory']['continue_label'] = tkinter.Label(self.scenes['inventory']['frame'], bg="#1a1a1a", text="CLICK HERE TO CLOSE", fg="#fff", font=("Arial", 20))
-        self.scenes['inventory']['continue_label'].bind( "<Button>", lambda e:self.open_scene(self.scene_cursor))  
+        self.scenes['inventory']['continue_label'].bind( "<Button>", lambda e:self.open_last_scene())  
         self.scenes['inventory']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
         self.scenes['inventory']['frame'].place_forget()
         self.open_scene("inventory")
@@ -830,9 +866,9 @@ class Interface(object):
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
-                    self.stats["rest"] += 3
+                    self.stats["rest"] += 5
                     self.stats["time"] -= 10
-                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 3 rest, -10 time)")
+                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 5 rest, -10 time)")
         elif(num == '5'):
             # travel to new location
             self.travel_menu("0")    
@@ -996,7 +1032,7 @@ class Interface(object):
         self.scenes['scene8b4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
         self.scenes['scene8b4']['frame'].place_forget() 
         # scene 8c1: catoctin mountain pic 1
-        random_event_chance = random.randint(1, 10)
+        random_event_chance = random.randint(1, 100)
         self.scenes['scene8c1'] = {}
         self.scenes['scene8c1']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
         self.scenes['scene8c1']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
@@ -1055,14 +1091,13 @@ class Interface(object):
         self.scenes['scene8c4']['continue_label'] = tkinter.Label(self.scenes['scene8c4']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
         if(random_event_chance <= 5):
             # (5% chance) bitten by snake random event
-            self.scenes['scene8b4']['continue_label'].bind( "<Button>", lambda e:self.random_event_handler("e5", "scene8"))
+            self.scenes['scene8c4']['continue_label'].bind( "<Button>", lambda e:self.random_event_handler("e5", "scene8"))
         else:
             # otherwise, return to frederick menu
             self.scenes['scene8c4']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
         self.scenes['scene8c4']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
         self.scenes['scene8c4']['frame'].place_forget() 
         # scene 8d1: farmer's market
-        random_event_chance = random.randint(1, 10)
         self.scenes['scene8d1'] = {}
         self.scenes['scene8d1']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
         self.scenes['scene8d1']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
@@ -1074,12 +1109,8 @@ class Interface(object):
         self.scenes['scene8d1']['image_label'].image = self.scenes['scene8d1']["image_widget"]
         self.scenes['scene8d1']['image_label'].place(relx=0.02, rely=0.02)
         self.scenes['scene8d1']['continue_label'] = tkinter.Label(self.scenes['scene8d1']['frame'], bg="#1a1a1a", text="CLICK HERE TO CONTINUE", fg="#fff", font=("Arial", 20))
-        if(random_event_chance >= 2):
-            # (90% chance) finding food at farmer's market
-            self.scenes['scene8d1']['continue_label'].bind( "<Button>", lambda e:self.random_event_handler("e6", "scene8"))
-        else:
-            # otherwise, return straight to frederick menu
-            self.scenes['scene8d1']['continue_label'].bind( "<Button>", lambda e:self.open_scene('scene8'))
+        # (90% chance) finding food at farmer's market
+        self.scenes['scene8d1']['continue_label'].bind( "<Button>", lambda e:self.random_event_handler("e6", "scene8"))
         self.scenes['scene8d1']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
         self.scenes['scene8d1']['frame'].place_forget()
 
@@ -1104,6 +1135,12 @@ class Interface(object):
                 self.stats["hunger"] -= 5
                 self.visited_scenes.append("scene8b1")
                 self.open_scene("scene8b1")
+                if("Tent" in self.inventory):
+                    result = messagebox.askyesno("Gnarly!", "It's perfect weather for camping! Would you like to go camping at Sugarloaf?\n\n(+10 fun, +10 rest)")
+                    if(result):
+                        self.stats["fun"] += 10
+                        self.stats["rest"] += 10
+                        self.stats["time"] -= 10
             else:
                 messagebox.showinfo("Oops!", "You've already visited this location!\n\nPlease select a different option.")
         elif(num == '2'):
@@ -1115,12 +1152,31 @@ class Interface(object):
                 self.stats["hunger"] -= 5
                 self.visited_scenes.append("scene8c1")
                 self.open_scene("scene8c1")
+                if("Tent" in self.inventory):
+                    result = messagebox.askyesno("Gnarly!", "It's perfect weather for camping! Would you like to go camping in Catoctin?\n\n(+10 fun, +10 rest)")
+                    if(result):
+                        self.stats["fun"] += 10
+                        self.stats["rest"] += 10
+                        self.stats["time"] -= 10
+                if("Kayak" in self.inventory):
+                    result = messagebox.askyesno("Gnarly!", "It's a great day to go kayaking! Would you like to go kayaking in Seneca Creek?\n\n(+5 fun)")
+                    if(result):
+                        self.stats["fun"] += 5
+                        self.stats["rest"] -= 5
+                        self.stats["time"] -= 1
+                if("Raft" in self.inventory):
+                    result = messagebox.askyesno("Gnarly!", "It's a great day to go rafting! Would you like to go rafting in Catoctin Mountain?\n\n(+5 fun)")
+                    if(result):
+                        self.stats["fun"] += 5
+                        self.stats["rest"] -= 5
+                        self.stats["time"] -= 1
             else:
                 messagebox.showinfo("Oops!", "You've already visited this location!\n\nPlease select a different option.")
         elif(num == '3'):
             # go to farmer's market (shop screen)
             self.visited_scenes.append("scene8d1")
             self.open_scene("scene8d1")
+            self.stats["time"] -= 1
         elif(num == '4'):
              # sleep at hotel in frederick
             if(self.stats["money"] - (len(self.players) + 1) * 75 > 0):
@@ -1132,9 +1188,9 @@ class Interface(object):
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
-                    self.stats["rest"] += 3
+                    self.stats["rest"] += 5
                     self.stats["time"] -= 10
-                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 3 rest, -10 time)")
+                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 5 rest, -10 time)")
         elif(num == '5'):
             # travel to new location
             self.travel_menu("1")     
@@ -1375,6 +1431,9 @@ class Interface(object):
                 self.stats["rest"] -= 2
                 self.stats["time"] -= 5
                 self.stats["hunger"] -= 5
+                if("Surfboard" in self.inventory):
+                    self.stats["fun"] += 5
+                    messagebox.showinfo("Gnarly!", "While at the beach, you used your surfboard to catch some waves!\n\n(+5 fun)")
                 self.visited_scenes.append("scene9a1")
                 self.open_scene("scene9a1")
             else:
@@ -1399,6 +1458,12 @@ class Interface(object):
                 self.stats["hunger"] -= 5
                 self.visited_scenes.append("scene9c1")
                 self.open_scene("scene9c1")
+                if("Tent" in self.inventory):
+                    result = messagebox.askyesno("Gnarly!", "It's perfect weather for camping! Would you like to go camping on Assateague Island?\n\n(+10 fun, +10 rest)")
+                    if(result):
+                        self.stats["fun"] += 10
+                        self.stats["rest"] += 10
+                        self.stats["time"] -= 10
             else:
                 messagebox.showinfo("Oops!", "You've already visited this location!\n\nPlease select a different option.")
         elif(num == '3'):
@@ -1422,9 +1487,9 @@ class Interface(object):
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
-                    self.stats["rest"] += 3
+                    self.stats["rest"] += 5
                     self.stats["time"] -= 10
-                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 3 rest, -10 time)")
+                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 5 rest, -10 time)")
         elif(num == '5'):
             # travel to new location
             self.travel_menu("2")    
@@ -1729,9 +1794,9 @@ class Interface(object):
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
-                    self.stats["rest"] += 3
+                    self.stats["rest"] += 5
                     self.stats["time"] -= 10
-                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 3 rest, -10 time)")
+                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 5 rest, -10 time)")
         elif(num == '5'):
             # travel to new location
             self.travel_menu("3")     
@@ -2039,6 +2104,24 @@ class Interface(object):
                 self.stats["hunger"] -= 3
                 self.visited_scenes.append("scene11b1")
                 self.open_scene("scene11b1")
+                if("Tent" in self.inventory):
+                    result = messagebox.askyesno("Gnarly!", "It's perfect weather for camping! Would you like to go camping in Seneca Creek?\n\n(+10 fun, +10 rest)")
+                    if(result):
+                        self.stats["fun"] += 10
+                        self.stats["rest"] += 10
+                        self.stats["time"] -= 10
+                if("Kayak" in self.inventory):
+                    result = messagebox.askyesno("Gnarly!", "It's a great day to go kayaking! Would you like to go kayaking in Seneca Creek?\n\n(+5 fun)")
+                    if(result):
+                        self.stats["fun"] += 5
+                        self.stats["rest"] -= 5
+                        self.stats["time"] -= 1
+                if("Raft" in self.inventory):
+                    result = messagebox.askyesno("Gnarly!", "It's a great day to go rafting! Would you like to go rafting in Seneca Creek?\n\n(+5 fun)")
+                    if(result):
+                        self.stats["fun"] += 5
+                        self.stats["rest"] -= 5
+                        self.stats["time"] -= 1
             else:
                 messagebox.showinfo("Oops!", "You've already visited this location!\n\nPlease select a different option.")
         elif(num == '2'):
@@ -2084,9 +2167,9 @@ class Interface(object):
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
-                    self.stats["rest"] += 3
+                    self.stats["rest"] += 5
                     self.stats["time"] -= 10
-                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+ 3 rest, -10 time)")
+                    messagebox.showinfo("Sweet Dreams!", "It's not ideal, but it gets the job done!\n\n(+5 rest, -10 time)")
         elif(num == '6'):
             # travel to new location
             self.travel_menu("4")    
@@ -2095,10 +2178,16 @@ class Interface(object):
     # random event handler
     def random_event_handler(self, code, redirect_scene):
         if(code == 'e1'):
-            # random event scene: slip and fall (-2 fun, -2 energy)
-            self.stats["fun"] -= 2
-            self.stats["rest"] -= 2
-            messagebox.showinfo("Oh no!", "You slipped on the fell outside an exhibit!\n\n(-2 fun, -2 rest)")
+            if("First Aid Kit" in self.inventory):
+                # random event scene: slip and fall (-1 fun, -1 energy)
+                self.stats["fun"] -= 1
+                self.stats["rest"] -= 1
+                messagebox.showinfo("Oh no!", "You slipped and fell outside an exhibit, but you used your first aid kit to clean up quickly!\n\n(-1 fun, -1 rest)")
+            else:
+                # random event scene: slip and fall (-2 fun, -2 energy)
+                self.stats["fun"] -= 2
+                self.stats["rest"] -= 2
+                messagebox.showinfo("Oh no!", "You slipped and fell outside an exhibit!\n\n(-2 fun, -2 rest)")
         elif(code == 'e2'):
             # random event scene: asked for money by homeless person
             if(self.stats["money"] - 20 >= 0):
@@ -2113,6 +2202,7 @@ class Interface(object):
                             # if pepper spray in inventory, reduce fun penalty
                             messagebox.showinfo("Oh no!", "The homeless person attacked you, but you used your pepper spray\n\n(5- fun)")
                             self.stats["fun"] -= 5
+                            self.remove_from_inventory("Pepper Spray")
                         else:
                             # otherwise, incur harsher fun penalty plus energy
                             # penalty
@@ -2126,6 +2216,7 @@ class Interface(object):
                         # if pepper spray in inventory, reduce fun penalty
                         messagebox.showinfo("Oh no!", "A homeless person has approached you and asked for some money\nCan you spare $20?\n\n(You're broke, so you must say no)\n\nHowever, the homeless person attacked you, but you used your pepper spray\n\n(5- fun)")
                         self.stats["fun"] -= 5
+                        self.remove_from_inventory("Pepper Spray")
                     else:
                         # otherwise, incur harsher fun penalty plus energy penalty
                         messagebox.showinfo("Oh no!", "A homeless person has approached you and asked for some money\nCan you spare $20?\n\n(You're broke, so you must say no)\n\nHowever, the homeless person attacked you!\n\n(-10 fun, -2 rest)")
@@ -2139,6 +2230,7 @@ class Interface(object):
                 # if pepper spray in inventory, reduce fun penalty
                 messagebox.showinfo("Oh no!", "You wandered into the wrong neighborhood and were robbed!\n\nLuckily, you used pepper spray to fend off the perpetrators!\n\n(-10 fun)")
                 self.stats["fun"] -= 10
+                self.remove_from_inventory("Pepper Spray")
             else:
                 # otherwise, incur harsher fun penalty plus energy and money penalty
                 messagebox.showinfo("Oh no!", "You wandered into the wrong neighborhood and were robbed!\n\nLuckily, you used pepper spray to fend off the perpetrators!\n\nThey took ${}!\n\n(-20 fun, -5 rest)".format(math.floor(self.stats["money"] * 15)))
@@ -2153,6 +2245,7 @@ class Interface(object):
                 # if rain jacket in inventory, reduce fun penalty
                 messagebox.showinfo("Oh no!", "A sudden rainstorm appeared out of nowhere!\n\nYou put on your raincoat and countinued exploring in the rain!(-2 fun)")
                 self.stats["fun"] -= 2
+                self.remove_from_inventory("Raincoat")
             else:
                 # otherwise, incur harsher fun penalty plus energy and money penalty
                 messagebox.showinfo("Oh no!", "A sudden rainstorm appeared out of nowhere!\n\n(-5 fun, -2 rest)")
@@ -2160,14 +2253,22 @@ class Interface(object):
                 self.stats["rest"] -= 2
         elif(code == "e5"):
             # random event scene: rattlesnake bite
+            if("Antivenom" in self.inventory): 
+                messagebox.showinfo("Oh no!", "You were bitten by a snake!\n\nYou're not sure if it's venemous, but you use your anti-venom just in case!\n\n(-2 fun, -1 rest)")
+                self.stats["fun"] -= 2
+                self.stats["rest"] -= 1
+                self.remove_from_inventory("Antivenom")
+            else:
                 messagebox.showinfo("Oh no!", "You were bitten by a snake! Better hope it's not venemous!\n\n(-5 fun, -2 rest)")
                 self.stats["fun"] -= 5
                 self.stats["rest"] -= 2
         elif(code == "e6"):
-            # random event scene: finding food at market
-            food_items = ["grapes","oranges juice","lemonade","apples", "apple cider","apple pie","grape jam"]
-            messagebox.showinfo("Yay!", "You found some great {} at the market!\n\n(+2 hunger)".format(food_items[random.randint(0, len(food_items)-1)]))
-            self.stats["hunger"] += 2
+            # random event scene: finding food at market (repeatable)
+            random_event_chance = random.randint(0, 10)
+            if(random_event_chance >= 2):
+                food_items = ["grapes","oranges juice","lemonade","apples", "apple cider","apple pie","grape jam"]
+                messagebox.showinfo("Yay!", "You found some great {} at the market!\n\n(+2 hunger)".format(food_items[random.randint(0, len(food_items)-1)]))
+                self.stats["hunger"] += 2
         elif(code == "e7"):
             # random event scene: attacked by seagulls
             messagebox.showinfo("Oh no!", "You were harassed by seagulls at the beach!\n\n(-10 fun, -2 rest)")
@@ -2180,6 +2281,7 @@ class Interface(object):
                 self.stats["fun"] -= 3
                 self.stats["rest"] -= 1
                 self.stats["time"] -= 1
+                self.remove_from_inventory("Spare Tire")
             else:
                 messagebox.showinfo("Oh no!", "You blew a tire on the interstate!\n\n(-10 fun, -3 rest)")
                 self.stats["fun"] -= 10
@@ -2190,20 +2292,90 @@ class Interface(object):
         self.update_stats()
 
     # end the game (reset)
-    def end_game(self):
-        self.hide_frames()
+    def reset_game(self):
+        # hide frames and reset data
         self.stats = {}
+        self.stats["money"] = 0
+        self.stats["rest"] = 20
+        self.stats["hunger"] = 0
+        self.stats["fun"] = 5
+        self.stats["time"] = 120
         self.inventory = []
         self.visited_scenes = []
         self.random_events_experienced = []
-        self.scene_cursor = 'scene1'
         self.open_scene("scene1")
+
+    def save_score(self):
+        # save to leaderboard
+        new_name = self.scenes["scene3"]["player_name"].get()
+        new_score = self.stats["fun"]
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        filepath = os.path.join(current_dir, "../leaderboard.txt")
+        # read file to check for overwrite of player score
+        scores = []
+        overwrite = False
+        f = open(filepath, "r")
+        lines = f.readlines()
+        for line in lines:
+            this_name = line.split(",")[0]
+            this_score = line.split(",")[1]
+            if(this_name.lower() == new_name.lower()):
+                overwrite = True
+                # only overwrite if new score is higher than original
+                if(int(this_score) < new_score):
+                    scores.append([this_name, int(new_score)])
+                else:
+                    scores.append([this_name, int(this_score)])
+            else:
+                scores.append([this_name, int(this_score)])
+        f.close()
+        if(overwrite == False):
+            scores.append([new_name, int(new_score)])
+        # rewrite file with new scores
+        f = open(filepath, "w")
+        for player_data in scores:
+            f.write(player_data[0] + "," + str(player_data[1]) + "\n")
+        f.close()
+        # generate leaderboard (5 highest scores)
+        self.leaderboard = sorted(scores, key=lambda x: x[1], reverse=True)[0:5]
+
+    def finish_game(self):
+        # save to leaderboard
+        self.save_score()
+        # create final game scene and show leaderboard (successful finish)
+        self.scenes['final'] = {}
+        self.scenes['final']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
+        self.scenes['final']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
+        self.scenes['final']['text'] = "You've reached the end of your journey!\nAfter a fun week of road tripping, it's time to return home.\n\nPlay again to get a better score!\n\n"
+        self.scenes['final']['text2'] = "Your Score: {}\n".format(self.stats["fun"])
+        self.scenes['final']['text_label'] = tkinter.Label(self.scenes['final']['frame'], bg="#1a1a1a", text=self.scenes['final']['text'], fg="#fff", font=("Arial", 16))
+        self.scenes['final']['text_label'].pack()
+        self.scenes['final']['text_label2'] = tkinter.Label(self.scenes['final']['frame'], bg="#1a1a1a", text=self.scenes['final']['text2'], fg="#ffeaa6", font=("Arial", 24))
+        self.scenes['final']['text_label2'].pack()
+        # build leaderboard
+        self.scenes['final']['leaderboard_heading'] = tkinter.Label(self.scenes['final']['frame'], bg="#1a1a1a", text="LEADERBOARD", fg="#fff", font=("Arial", 20))
+        self.scenes['final']['leaderboard_heading'].pack()
+        player_cursor = 0
+        for player in self.leaderboard:
+            if(player[0].lower() == self.scenes["scene3"]["player_name"].get().lower()):
+                self.scenes['final']['leaderboard_player' + str(player_cursor)] = tkinter.Label(self.scenes['final']['frame'], bg="#1a1a1a", text=player[0] + ": " + str(player[1]), fg="#ffeaa6", font=("Arial", 16))
+            else:
+                self.scenes['final']['leaderboard_player' + str(player_cursor)] = tkinter.Label(self.scenes['final']['frame'], bg="#1a1a1a", text=player[0] + ": " + str(player[1]), fg="#ccc", font=("Arial", 16))
+            self.scenes['final']['leaderboard_player' + str(player_cursor)].pack()
+            player_cursor += 1
+        # build continue label
+        self.scenes['final']['continue_label'] = tkinter.Label(self.scenes['final']['frame'], bg="#1a1a1a", text="CLICK HERE TO RESTART", fg="#fff", font=("Arial", 20))
+        self.scenes['final']['continue_label'].bind("<Button>", lambda e:self.reset_game())  
+        self.scenes['final']['continue_label'].place(relx=.15, rely=.9, relwidth=.7)
 
     # navigate to page
     def open_scene(self, scene_to_open):
-        scene_cursor = scene_to_open
         self.hide_frames()
         self.scenes[scene_to_open]['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9) 
+
+    # go back to the last scene
+    def open_last_scene(self):
+        self.open_scene(self.visited_scenes[len(self.visited_scenes)-1])
 
     # close window
     def close(self):
