@@ -168,7 +168,7 @@ class Interface(object):
             self.scenes['scene4']['frame'] = tkinter.Frame(self.dynamic_frame, bg="#1a1a1a")
             self.scenes['scene4']['frame'].place(relx=0.1, rely=0.1, relwidth=0.8, relheight=.9)
             self.scenes['scene4']['text'] = "Select your vehicle!\n\nRemember, your car must be able to\n accomodate you plus ({}) passengers!".format(len(self.players))
-            self.scenes['scene4']['text2'] = "\n\n [0]--> VW Bus ($1000, seats 9)\n\n [1]--> Mercedes G Wagon ($1500, seats 7)\n\n [2]--> Toyota Corolla ($400, seats 5)\n\n [3]--> Subaru outback ($550, seats 5)\n\n [4]--> Toyota Highlander ($700, seats 7)\n\n [5]--> RV Camper ($1200, seats 8)"
+            self.scenes['scene4']['text2'] = "\n\n [0]--> VW Bus ($1000, seats 9)\n\n [1]--> Mercedes G Wagon ($1500, seats 7)\n\n [2]--> Toyota Corolla ($400, seats 5)\n\n [3]--> Subaru Outback ($550, seats 5)\n\n [4]--> Toyota Highlander ($700, seats 7)\n\n [5]--> RV Camper ($1200, seats 8)"
             self.scenes['scene4']['text_label'] = tkinter.Label(self.scenes['scene4']['frame'], bg="#1a1a1a", text=self.scenes['scene4']['text'], fg="#fff", font=("Arial", 20))
             self.scenes['scene4']['text_label'].pack()
             self.scenes['scene4']['text_label2'] = tkinter.Label(self.scenes['scene4']['frame'], bg="#1a1a1a", text=self.scenes['scene4']['text2'], fg="#fff", font=("Arial", 14), justify="left")
