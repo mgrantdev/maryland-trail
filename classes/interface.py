@@ -859,11 +859,11 @@ class Interface(object):
         elif(num == '4'):
             # sleep at hotel
             if(self.stats["money"] - (len(self.players) + 1) * 80 > 0):
-                self.stats["hunger"] += 10
-                self.stats["rest"] += 10
+                self.stats["hunger"] += 15
+                self.stats["rest"] += 20
                 self.stats["time"] -= 10
                 self.stats["money"] -= (len(self.players) + 1) * 80
-                messagebox.showinfo("Lord Hotel", "Enjoy your stay at the Lord Hotel.\n\n(+ 10 rest, +10 hunger, -10 time)")
+                messagebox.showinfo("Lord Hotel", "Enjoy your stay at the Lord Hotel.\n\n(+20 rest, +15 hunger, -10 time)")
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
@@ -1181,11 +1181,11 @@ class Interface(object):
         elif(num == '4'):
              # sleep at hotel in frederick
             if(self.stats["money"] - (len(self.players) + 1) * 75 > 0):
-                self.stats["hunger"] += 10
-                self.stats["rest"] += 10
+                self.stats["hunger"] += 15
+                self.stats["rest"] += 20
                 self.stats["time"] -= 10
                 self.stats["money"] -= (len(self.players) + 1) * 75
-                messagebox.showinfo("Country Inn Frederick", "Enjoy your stay at Country Inn Frederick!.\n\n(+ 10 rest, +10 hunger, -10 time)")
+                messagebox.showinfo("Country Inn Frederick", "Enjoy your stay at Country Inn Frederick!.\n\n(+20 rest, +15 hunger, -10 time)")
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
@@ -1480,11 +1480,11 @@ class Interface(object):
         elif(num == '4'):
             # sleep at hotel
             if(self.stats["money"] - (len(self.players) + 1) * 90 > 0):
-                self.stats["hunger"] += 10
-                self.stats["rest"] += 10
+                self.stats["hunger"] += 15
+                self.stats["rest"] += 20
                 self.stats["time"] -= 10
                 self.stats["money"] -= (len(self.players) + 1) * 90
-                messagebox.showinfo("Holiday Inn Ocean City", "Enjoy your stay at Holiday Inn.\n\n(+ 10 rest, +10 hunger, -10 time)")
+                messagebox.showinfo("Holiday Inn Ocean City", "Enjoy your stay at Holiday Inn.\n\n(+20 rest, +15 hunger, -10 time)")
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
@@ -1787,11 +1787,11 @@ class Interface(object):
         elif(num == '4'):
              # sleep at hotel in annapolis
             if(self.stats["money"] - (len(self.players) + 1) * 125 > 0):
-                self.stats["hunger"] += 10
-                self.stats["rest"] += 10
+                self.stats["hunger"] += 15
+                self.stats["rest"] += 20
                 self.stats["time"] -= 10
                 self.stats["money"] -= (len(self.players) + 1) * 125
-                messagebox.showinfo("Historic Inns of Annapolis", "Enjoy your stay in Historic Downtown Annapolis!.\n\n(+ 10 rest, +10 hunger, -10 time)")
+                messagebox.showinfo("Historic Inns of Annapolis", "Enjoy your stay in Historic Downtown Annapolis!.\n\n(+20 rest, +15 hunger, -10 time)")
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
@@ -2160,11 +2160,11 @@ class Interface(object):
         elif(num == '4'):
             # sleep at hotel
             if(self.stats["money"] - (len(self.players) + 1) * 110 > 0):
-                self.stats["hunger"] += 10
-                self.stats["rest"] += 10
+                self.stats["hunger"] += 15
+                self.stats["rest"] += 20
                 self.stats["time"] -= 10
                 self.stats["money"] -= (len(self.players) + 1) * 110
-                messagebox.showinfo("Hyatt Regency Bethesda", "Enjoy your stay at Hyatt!.\n\n(+ 10 rest, +10 hunger, -10 time)")
+                messagebox.showinfo("Hyatt Regency Bethesda", "Enjoy your stay at Hyatt!.\n\n(+20 rest, +15 hunger, -10 time)")
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
@@ -2459,11 +2459,11 @@ class Interface(object):
         elif(num == '4'):
             # sleep at hotel
             if(self.stats["money"] - (len(self.players) + 1) * 90 > 0):
-                self.stats["hunger"] += 10
-                self.stats["rest"] += 10
+                self.stats["hunger"] += 15
+                self.stats["rest"] += 20
                 self.stats["time"] -= 10
                 self.stats["money"] -= (len(self.players) + 1) * 90
-                messagebox.showinfo("The Lodges at Sunset Valley", "Enjoy your stay at The Lodges at Sunset Valley.\n\n(+ 10 rest, +10 hunger, -10 time)")
+                messagebox.showinfo("The Lodges at Sunset Valley", "Enjoy your stay at The Lodges at Sunset Valley.\n\n(+20 rest, +15 hunger, -10 time)")
             else:
                 msgbox = messagebox.askquestion("Oh no!", "You don't have enough money for this!\n\nWould you like to sleep in your car instead?")
                 if(msgbox == 'yes'):
